@@ -21,7 +21,7 @@ public class GameView extends View{
     private int viewHeight;
     private int points = 0;
     private Sprite playerBird;
-    private final int timerInterval = 30;
+    private final int timerInterval = 25;
 
     public GameView(Context context) {
         super(context);

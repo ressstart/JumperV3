@@ -33,6 +33,7 @@ public class Sprite {
     private boolean isJumping = false;
 
     //ImageView imageView = (image).findViewById(R.id.);
+    //
 
     public Sprite(double x, double y, double velocityX, double velocityY, Rect initialFrame, Bitmap bitmap){
         this.x = x;
@@ -44,7 +45,7 @@ public class Sprite {
         this.frames.add(initialFrame);
         this.bitmap = bitmap;
         this.timeForCurrentFrame = 0.0;
-        this.frameTime = 45;
+        this.frameTime = 42;
         this.currentFrame = 0;
         this.frameWidth = initialFrame.width();
         this.frameHeight = initialFrame.height();
