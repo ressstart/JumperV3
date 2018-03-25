@@ -25,7 +25,7 @@ public class GameView extends View{
 
     public GameView(Context context) {
         super(context);
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.sprites2var);
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.sprites2var1);
         int w = b.getWidth()/7;
         int h = b.getHeight()/1;
         Rect firstFrame = new Rect(0,0, w, h);
