@@ -24,8 +24,8 @@ public class GameView extends View{
 
     public GameView(Context context) {
         super(context);
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.sprites4);
-       int w = b.getWidth()/7;
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.cuttingsprites);
+        int w = b.getWidth()/7;
         int h = b.getHeight();
         Rect firstFrame = new Rect(0,0, w, h);
         playerBird = new Sprite(10,0,0,0, firstFrame, b);

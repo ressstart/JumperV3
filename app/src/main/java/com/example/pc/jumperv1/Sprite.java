@@ -45,7 +45,7 @@ public class Sprite {
         this.frames.add(initialFrame);
         this.bitmap = bitmap;
         this.timeForCurrentFrame = 0.0;
-        this.frameTime = 42;
+        this.frameTime = 60;
         this.currentFrame = 0;
         this.frameWidth = initialFrame.width();
         this.frameHeight = initialFrame.height();
