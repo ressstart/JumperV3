@@ -1,7 +1,6 @@
 package com.example.pc.jumperv1;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -25,9 +24,9 @@ public class GameView extends View{
 
     public GameView(Context context) {
         super(context);
-        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.sprites2var1);
-        int w = b.getWidth()/7;
-        int h = b.getHeight()/1;
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.sprites4);
+       int w = b.getWidth()/7;
+        int h = b.getHeight();
         Rect firstFrame = new Rect(0,0, w, h);
         playerBird = new Sprite(10,0,0,0, firstFrame, b);
 
