@@ -45,11 +45,11 @@ public class Sprite {
         this.frames.add(initialFrame);
         this.bitmap = bitmap;
         this.timeForCurrentFrame = 0.0;
-        this.frameTime = 60;
+        this.frameTime = 100;
         this.currentFrame = 0;
         this.frameWidth = initialFrame.width();
         this.frameHeight = initialFrame.height();
-        this.padding = 20;
+        this.padding = 2;
     }
 
     public double getX() {
@@ -134,6 +134,7 @@ public class Sprite {
         }
         x = x + velocityX * ms/1000.0;
         y = y + velocityY * ms/1000.0;
+
     }
 
     public void jump() {
@@ -154,5 +155,8 @@ public class Sprite {
 
     public boolean intersect(Sprite s){ // метод опред-я получения спрайтов
         return getBoundBoxRect().intersect(s.getBoundBoxRect());
+    }
+    public void stop() {
+        velocityY = 0;
     }
 }
