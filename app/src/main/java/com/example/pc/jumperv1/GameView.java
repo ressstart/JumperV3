@@ -27,7 +27,7 @@ public class GameView extends View {
     private Sprite playerBird, iceBlock;
     private Sprite block;
     private final int timerInterval = 25;
-    private Bitmap iceBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.iceblockmini);
+    private Bitmap iceBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icestack);
     /*Display display = getWindowManager().getDefaultDisplay();
     int width = display.getWidth();  // deprecated
     int height = display.getHeight();  // deprecated*/
@@ -62,7 +62,7 @@ public class GameView extends View {
         int h = b.getHeight();
         Rect firstFrame = new Rect(0, 0, w, h);
         playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2, 0, 50, firstFrame, b);
-        iceBlock = new Sprite(getScreenWidth() / 2 - iceBitmap.getWidth() / 2, getScreenHeight() - iceBitmap.getHeight(), 0, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+        iceBlock = new Sprite(getScreenWidth() / 2 - iceBitmap.getWidth() / 2, getScreenHeight() - iceBitmap.getHeight(), 100, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
 
         class Timer extends CountDownTimer {
             public Timer() {
@@ -116,6 +116,7 @@ public class GameView extends View {
 
     protected void update() {
         playerBird.update(timerInterval);
+        iceBlock.update(timerInterval);
         blockX++;
         invalidate();
     }
