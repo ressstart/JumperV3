@@ -142,6 +142,10 @@ public class Sprite {
         currentFrame = 0;
     }
 
+    /*public boolean isStanding(){
+        if
+    }*/
+
     public void draw(Canvas canvas){ //этот метод рисует на переданном холсте текущ кадр frames.get(currentFrame)
                                      //в области экрана, заданной в прямоугольнике destination
         Paint p = new Paint();
@@ -153,10 +157,14 @@ public class Sprite {
                 (int)(y + frameHeight - 2*padding));
     }
 
+
     public boolean intersect(Sprite s){ // метод опред-я получения спрайтов
+
         return getBoundBoxRect().intersect(s.getBoundBoxRect());
     }
+
     public void stop() {
+        velocityX = 0;
         velocityY = 0;
     }
 }

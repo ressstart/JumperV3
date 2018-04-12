@@ -26,7 +26,8 @@ public class GameView extends View {
     int blockX = 0;
     private Sprite playerBird, iceBlock;
     private Sprite block;
-    private final int timerInterval = 25;
+    private boolean flag = true;
+    private final int timerInterval = 40;
     private Bitmap iceBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icestack);
     /*Display display = getWindowManager().getDefaultDisplay();
     int width = display.getWidth();  // deprecated
@@ -61,8 +62,27 @@ public class GameView extends View {
         int w = b.getWidth() / 7;
         int h = b.getHeight();
         Rect firstFrame = new Rect(0, 0, w, h);
-        playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2, 0, 50, firstFrame, b);
-        iceBlock = new Sprite(getScreenWidth() / 2 - iceBitmap.getWidth() / 2, getScreenHeight() - iceBitmap.getHeight(), 100, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+        playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2, 0, 105, firstFrame, b);
+
+        for (int i = 4; i < 5; i++) { //потом переделать в while потому что стэк будет без счетчика, а по условию
+            int flag = i % 2; //четное или нет; если да, то скорость блока положит., нет - отриц.
+            int x;
+            int velocityXforiceBlock;
+            int criticalX;
+            if(flag == 1){
+                velocityXforiceBlock = 160;
+                x = 0;
+                criticalX = getScreenWidth();
+            }
+            else {
+                velocityXforiceBlock = -160;
+                x = getScreenWidth();
+                criticalX = 0;
+            }
+            iceBlock = new Sprite(x, getScreenHeight() - iceBitmap.getHeight(), velocityXforiceBlock, 10, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+
+
+        }
 
         class Timer extends CountDownTimer {
             public Timer() {
@@ -87,14 +107,19 @@ public class GameView extends View {
     }
 
 
+    /*public boolean isStanding(){
+
+    }*/
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+        //here will be proverka on touching with iceblock
 
-        int eventAction = event.getAction();
-        if (eventAction == MotionEvent.ACTION_DOWN) {
-            playerBird.jump();
-        }
-        return true;
+            int eventAction = event.getAction();
+            if (eventAction == MotionEvent.ACTION_DOWN) {
+                playerBird.jump();
+            }
+            return true;
     }
 
     @Override
@@ -109,6 +134,7 @@ public class GameView extends View {
         canvas.drawText(points + "", viewWidth - 100, 70, p);
         if (iceBlock.intersect(playerBird)) {
             playerBird.stop();
+            iceBlock.stop();
         }
         iceBlock.draw(canvas);
         playerBird.draw(canvas);
@@ -117,7 +143,7 @@ public class GameView extends View {
     protected void update() {
         playerBird.update(timerInterval);
         iceBlock.update(timerInterval);
-        blockX++;
+        //blockX++;
         invalidate();
     }
 
