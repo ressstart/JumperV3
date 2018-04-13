@@ -30,7 +30,7 @@ public class Sprite {
     private double velocityX; //скорости перемещения по осям Ох и Оу
     private double velocityY;
     private int padding; // внутренний отступ от границ спрайта для более точн опр пересеч спрайтов
-    private boolean isJumping = false;
+    public boolean isJumping = false;
 
     //ImageView imageView = (image).findViewById(R.id.);
     //
@@ -132,6 +132,8 @@ public class Sprite {
                 timeForCurrentFrame = timeForCurrentFrame - frameTime;
             }
         }
+        if (isJumping && velocityY < 350)
+            velocityY += 60;
         x = x + velocityX * ms/1000.0;
         y = y + velocityY * ms/1000.0;
 
@@ -139,6 +141,7 @@ public class Sprite {
 
     public void jump() {
         isJumping = true;
+        velocityY = -1000;
         currentFrame = 0;
     }
 

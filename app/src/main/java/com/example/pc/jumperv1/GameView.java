@@ -28,6 +28,7 @@ public class GameView extends View {
     private Sprite block;
     private boolean flag = true;
     private final int timerInterval = 40;
+    private Sprite [] iceBlocks = new Sprite [4];
     private Bitmap iceBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icestack);
     /*Display display = getWindowManager().getDefaultDisplay();
     int width = display.getWidth();  // deprecated
@@ -64,26 +65,43 @@ public class GameView extends View {
         Rect firstFrame = new Rect(0, 0, w, h);
         playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2, 0, 105, firstFrame, b);
 
-        for (int i = 4; i < 5; i++) { //потом переделать в while потому что стэк будет без счетчика, а по условию
+        for (int i = 0; i < iceBlocks.length; i++) { //потом переделать в while потому что стэк будет без счетчика, а по условию
             int flag = i % 2; //четное или нет; если да, то скорость блока положит., нет - отриц.
             int x;
-            int velocityXforiceBlock;
+            int y;
+            int velocityXforBlock;
             int criticalX;
             if(flag == 1){
-                velocityXforiceBlock = 160;
-                x = 0;
+                velocityXforBlock = 220;
+                x = -getScreenWidth()/2*(i+1);
+
                 criticalX = getScreenWidth();
             }
             else {
-                velocityXforiceBlock = -160;
-                x = getScreenWidth();
+                velocityXforBlock = -220;
+                x = getScreenWidth()/2 * (i+1);
                 criticalX = 0;
             }
-            iceBlock = new Sprite(x, getScreenHeight() - iceBitmap.getHeight(), velocityXforiceBlock, 10, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
-
+            iceBlocks[i] = new Sprite(x, getScreenHeight() - iceBitmap.getHeight() * (i + 1), velocityXforBlock, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+            //if (iceBlock.getX() == criticalX) если достигает края экрана
+            /*if (iceBlock.getX() == getScreenWidth() / 4 * 3) {
+                iceBlock.stop();
+            }*/
 
         }
+        /*
 
+
+
+
+        создать наследование от класса Sprite , почистить и прописать методы и перемнные для iceblock
+        пошаманить со скоростями и координатами
+
+
+
+
+
+         */
         class Timer extends CountDownTimer {
             public Timer() {
                 super(Integer.MAX_VALUE, timerInterval);
@@ -114,9 +132,8 @@ public class GameView extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //here will be proverka on touching with iceblock
-
             int eventAction = event.getAction();
-            if (eventAction == MotionEvent.ACTION_DOWN) {
+            if (eventAction == MotionEvent.ACTION_DOWN && !playerBird.isJumping) {
                 playerBird.jump();
             }
             return true;
@@ -132,17 +149,21 @@ public class GameView extends View {
         p.setTextSize(55.0f);
         p.setColor(Color.BLUE);
         canvas.drawText(points + "", viewWidth - 100, 70, p);
-        if (iceBlock.intersect(playerBird)) {
-            playerBird.stop();
-            iceBlock.stop();
+        for (int i = 0; i < iceBlocks.length; i++) {
+            if (iceBlocks[i].intersect(playerBird)) {
+                playerBird.stop();
+                iceBlocks[i].stop();
+            }
+            iceBlocks[i].draw(canvas);
         }
-        iceBlock.draw(canvas);
         playerBird.draw(canvas);
     }
 
     protected void update() {
         playerBird.update(timerInterval);
-        iceBlock.update(timerInterval);
+        for (int i = 0; i < iceBlocks.length; i++) {
+            iceBlocks[i].update(timerInterval);
+        }
         //blockX++;
         invalidate();
     }
