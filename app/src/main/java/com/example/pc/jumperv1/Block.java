@@ -4,17 +4,16 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.media.Image;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by PC on 25.01.2018.
+ * Created by PC on 19.04.2018.
  */
 
-public class Sprite {
+public class Block {
     ImageView image;
     private Bitmap bitmap; //ссылка на изображение с набором кадров
     private List<Rect> frames; //коллекшн прямоугол областей на изобр - кадры,участвующ в анимац послед-ти
@@ -23,20 +22,16 @@ public class Sprite {
     private int currentFrame; // номер текущего кадра в коллекции frames
     private double frameTime; // время отведенное на отображ каждого кадра анимац послед-ти
     private double timeForCurrentFrame; // текущее время отображ кадра.
-                                        // номер текущ кадра currentFrame меняется на след при достиж-и
-                                        //перемен timeForCurrentFrame значения из frameTime
+    // номер текущ кадра currentFrame меняется на след при достиж-и
+    //перемен timeForCurrentFrame значения из frameTime
     private double x; // местоположение левого верхнего угла спрайта на экране
     private double y;
     private double velocityX; //скорости перемещения по осям Ох и Оу
     private double velocityY;
-    private int paddingX; // внутренний отступ от границ спрайта для более точн опр пересеч спрайтов
-    private int paddingY;
+    private int padding; // внутренний отступ от границ спрайта для более точн опр пересеч спрайтов
     public boolean isJumping = false;
 
-    //ImageView imageView = (image).findViewById(R.id.);
-    //
-
-    public Sprite(double x, double y, double velocityX, double velocityY, Rect initialFrame, Bitmap bitmap){
+    public Block(double x, double y, double velocityX, double velocityY, Rect initialFrame, Bitmap bitmap){
         this.x = x;
         this.y = y;
         this.velocityX = velocityX;
@@ -50,8 +45,7 @@ public class Sprite {
         this.currentFrame = 0;
         this.frameWidth = initialFrame.width();
         this.frameHeight = initialFrame.height();
-        this.paddingX = 70;
-        this.paddingY = 2;
+        this.padding = 2;
     }
 
     public double getX() {
@@ -115,14 +109,10 @@ public class Sprite {
         frames.add(frame);
     }
 
-  /*  public void addFrame (Rect frame) {
-        frames.add(frame);
-    }*/
-
     public void update(int ms){ // обновление внутреннего состояния спрайта, анимация.
-                                // вызов таймера с опр переодич-ю. в метод передается время в мс (с момента
-                                // последнего вызова этого метода). Время испол-ся для изм-я сост спрайта
-                                // его перемещ в простр-е за это время и расчит необход-ь перехода к след кадру
+        // вызов таймера с опр переодич-ю. в метод передается время в мс (с момента
+        // последнего вызова этого метода). Время испол-ся для изм-я сост спрайта
+        // его перемещ в простр-е за это время и расчит необход-ь перехода к след кадру
         if (isJumping) {
             timeForCurrentFrame += ms;
 
@@ -136,7 +126,6 @@ public class Sprite {
         }
         if (isJumping && velocityY < 350)
             velocityY += 60;
-
         x = x + velocityX * ms/1000.0;
         y = y + velocityY * ms/1000.0;
 
@@ -144,25 +133,21 @@ public class Sprite {
 
     public void jump() {
         isJumping = true;
-        velocityY = -800; //was -1000
+        velocityY = -1000;
         currentFrame = 0;
     }
 
-    /*public boolean isStanding(){
-        if
-    }*/
-
     public void draw(Canvas canvas){ //этот метод рисует на переданном холсте текущ кадр frames.get(currentFrame)
-                                     //в области экрана, заданной в прямоугольнике destination
+        //в области экрана, заданной в прямоугольнике destination
         Paint p = new Paint();
         Rect destination = new Rect((int)x, (int)y, (int)(x + frameWidth), (int)(y + frameHeight));
         canvas.drawBitmap(bitmap, frames.get(currentFrame), destination, p);
     }
-    public Rect getBoundBoxRect(){ // метод, возвращ прямоугол обл,участ-ую в опред-и столкновений
-        return new Rect((int)x+paddingX, (int)y+paddingY,(int)(x+frameWidth - 2*paddingX),
-                (int)(y + frameHeight - 2*paddingY));
-    }
 
+    public Rect getBoundBoxRect(){ // метод, возвращ прямоугол обл,участ-ую в опред-и столкновений
+        return new Rect((int)x+padding, (int)y+padding,(int)(x+frameWidth - 2*padding),
+                (int)(y + frameHeight - 2*padding));
+    }
 
     public boolean intersect(Sprite s){ // метод опред-я получения спрайтов
 
@@ -171,7 +156,6 @@ public class Sprite {
 
     public void stop() {
         velocityX = 0;
-        velocityY = 0;
-        isJumping = false;
+        velocityX = 0;
     }
 }

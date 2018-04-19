@@ -24,11 +24,11 @@ public class GameView extends View {
     private int viewHeight;
     private int points = 0; // очки
     int blockX = 0;
-    private Sprite playerBird, iceBlock;
-    private Sprite block;
+    private Sprite playerBird;
+    private Block block, iceBlock;
     private boolean flag = true;
     private final int timerInterval = 40;
-    private Sprite [] iceBlocks = new Sprite [4];
+    private Block [] iceBlocks = new Block [4];
     private Bitmap iceBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icestack);
     /*Display display = getWindowManager().getDefaultDisplay();
     int width = display.getWidth();  // deprecated
@@ -43,46 +43,40 @@ public class GameView extends View {
     public static int getScreenWidth() {
         return Resources.getSystem().getDisplayMetrics().widthPixels;
     }
-
     public static int getScreenHeight() {
         return Resources.getSystem().getDisplayMetrics().heightPixels;
     }
 
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-
         viewWidth = w;
         viewHeight = h;
     }
 
-
     public GameView(Context context) {
         super(context);
-
         Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.spriteshigh);
         int w = b.getWidth() / 7;
         int h = b.getHeight();
         Rect firstFrame = new Rect(0, 0, w, h);
         playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2, 0, 105, firstFrame, b);
 
-        for (int i = 0; i < iceBlocks.length; i++) { //потом переделать в while потому что стэк будет без счетчика, а по условию
-            int flag = i % 2; //четное или нет; если да, то скорость блока положит., нет - отриц.
-            int x;
-            int y;
+        for (int i = 0; i < iceBlocks.length; i++) {
+            //int flag = i % 2; //четное или нет; если да, то скорость блока положит., нет - отриц.
+            int x,y;
             int velocityXforBlock;
             int criticalX;
-            if(flag == 1){
+            if(i % 2 == 1){
                 velocityXforBlock = 220;
                 x = -getScreenWidth()/2*(i+1);
-
-                criticalX = getScreenWidth();
+             //   criticalX = getScreenWidth();
             }
             else {
                 velocityXforBlock = -220;
                 x = getScreenWidth()/2 * (i+1);
-                criticalX = 0;
+             //   criticalX = 0;
             }
-            iceBlocks[i] = new Sprite(x, getScreenHeight() - iceBitmap.getHeight() * (i + 1), velocityXforBlock, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+            iceBlocks[i] = new Block(x + iceBitmap.getWidth(), getScreenHeight() - iceBitmap.getHeight() * (i + 1), velocityXforBlock, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
             //if (iceBlock.getX() == criticalX) если достигает края экрана
             /*if (iceBlock.getX() == getScreenWidth() / 4 * 3) {
                 iceBlock.stop();
@@ -94,9 +88,10 @@ public class GameView extends View {
 
 
 
-        создать наследование от класса Sprite , почистить и прописать методы и перемнные для iceblock
-        пошаманить со скоростями и координатами
-
+        создать активность-менюшку
+        увелечение очков
+        завершение игры
+        фон
 
 
 
@@ -120,7 +115,7 @@ public class GameView extends View {
         Timer t = new Timer();
         t.start();
         for (int i = 0; i < 7; i++) {
-            playerBird.addFrame(new Rect(i * w, 0, i * w + w, h));
+            playerBird.addFrames(new Rect(i * w, 0, i * w + w, h));
         }
     }
 
@@ -150,7 +145,7 @@ public class GameView extends View {
         p.setColor(Color.BLUE);
         canvas.drawText(points + "", viewWidth - 100, 70, p);
         for (int i = 0; i < iceBlocks.length; i++) {
-            if (iceBlocks[i].intersect(playerBird)) {
+            if (iceBlocks[i].intersect(playerBird)) {  //а если сбоку?
                 playerBird.stop();
                 iceBlocks[i].stop();
             }
