@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.pc.jumperv1.StartActivity"
+    android:background="@drawable/birthdaymountain" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginEnd="32dp"
+        android:layout_marginStart="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/button"
+            android:onClick="startGame"
+            android:layout_width="300dp"
+            android:layout_height="60dp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="START"
+            android:textColor="#174DFF"
+            android:textSize="30sp"
+            android:background="@drawable/buttonshape"
+            android:shadowColor="#858585"
+            android:shadowDx="2"
+            android:shadowDy="0"
+            android:shadowRadius="5"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome! Press the button to start of game!"
+            android:textColor="#174DFF"
+            android:textSize="25sp"
+            android:gravity="bottom"
+
+            />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

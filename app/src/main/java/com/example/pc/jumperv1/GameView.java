@@ -137,8 +137,8 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) { // чтобы рисовать на поверхности компонента
         super.onDraw(canvas);
-        // canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.spriteshigh),20,15,null); //32-37 фон и кол-во очков на поверх-и компонента
-        canvas.drawARGB(100, 224, 255, 255);
+        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mountain),0,0,null); // фон
+        //canvas.drawARGB(100, 224, 255, 255);
         Paint p = new Paint();
         p.setAntiAlias(true);
         p.setTextSize(55.0f);
