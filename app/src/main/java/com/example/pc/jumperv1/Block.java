@@ -30,6 +30,7 @@ public class Block {
     private double velocityY;
     private int padding; // внутренний отступ от границ спрайта для более точн опр пересеч спрайтов
     public boolean isJumping = false;
+    public static boolean jumped = false;
 
     public Block(double x, double y, double velocityX, double velocityY, Rect initialFrame, Bitmap bitmap){
         this.x = x;
@@ -135,6 +136,7 @@ public class Block {
         isJumping = true;
         velocityY = -1000;
         currentFrame = 0;
+        jumped = true;
     }
 
     public void draw(Canvas canvas){ //этот метод рисует на переданном холсте текущ кадр frames.get(currentFrame)

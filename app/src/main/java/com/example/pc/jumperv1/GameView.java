@@ -6,10 +6,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,8 +30,10 @@ public class GameView extends View {
     private Block block, iceBlock;
     private boolean flag = true;
     private final int timerInterval = 40;
-    private Block [] iceBlocks = new Block [4];
+    private Block [] iceBlocks = new Block [100];
     private Bitmap iceBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.icestack);
+    Bitmap background;
+    Matrix matrix;
     /*Display display = getWindowManager().getDefaultDisplay();
     int width = display.getWidth();  // deprecated
     int height = display.getHeight();  // deprecated*/
@@ -83,6 +87,9 @@ public class GameView extends View {
             }*/
 
         }
+        background = BitmapFactory.decodeResource(getResources(),R.drawable.mountain);
+        matrix = new Matrix();
+        matrix.setScale(3f, 4.0f, 200, 0);
         /*
 
 
@@ -137,8 +144,16 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) { // чтобы рисовать на поверхности компонента
         super.onDraw(canvas);
-        canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mountain),0,0,null); // фон
+        //Bitmap mBackgroundImage = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_4444);
+        //Canvas c = new Canvas(mBackgroundImage);
+        //c.setBitmap(mBackgroundImage);
+        //mCanvas = new Canvas(mBackgroundImage);
+        //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mountain),0,0,null); // фон
         //canvas.drawARGB(100, 224, 255, 255);
+        //canvas.drawColor(Color.TRANSPARENT);
+        // canvas.drawBitmap(background,0,0,null);
+        canvas.drawBitmap(background, matrix, null);
+
         Paint p = new Paint();
         p.setAntiAlias(true);
         p.setTextSize(55.0f);
@@ -147,12 +162,18 @@ public class GameView extends View {
         for (int i = 0; i < iceBlocks.length; i++) {
             if (iceBlocks[i].intersect(playerBird)) {  //а если сбоку?
                 playerBird.stop();
+                playerBird.setY(playerBird.getY() - 20);
                 iceBlocks[i].stop();
+                points++;
+
             }
             iceBlocks[i].draw(canvas);
         }
         playerBird.draw(canvas);
+
     }
+
+
 
     protected void update() {
         playerBird.update(timerInterval);
