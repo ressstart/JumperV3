@@ -169,9 +169,9 @@ public class Sprite {
         return getBoundBoxRect().intersect(s.getBoundBoxRect());
     }
 
-    public void stop() {
+    public void stop(int vel) {
         velocityX = 0;
-        velocityY = 0;
+        velocityY = vel;
         isJumping = false;
     }
 }

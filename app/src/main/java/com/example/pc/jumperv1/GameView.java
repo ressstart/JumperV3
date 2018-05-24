@@ -16,6 +16,7 @@ import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 /**
  * Created by PC on 25.01.2018.
@@ -63,7 +64,7 @@ public class GameView extends View {
         int w = b.getWidth() / 7;
         int h = b.getHeight();
         Rect firstFrame = new Rect(0, 0, w, h);
-        playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2, 0, 105, firstFrame, b);
+        playerBird = new Sprite(getScreenWidth() / 3, getScreenHeight() - iceBitmap.getHeight() - b.getHeight() * 2 +150, 0, 105, firstFrame, b);
 
         for (int i = 0; i < iceBlocks.length; i++) {
             //int flag = i % 2; //четное или нет; если да, то скорость блока положит., нет - отриц.
@@ -80,7 +81,11 @@ public class GameView extends View {
                 x = getScreenWidth()/2 * (i+1);
              //   criticalX = 0;
             }
-            iceBlocks[i] = new Block(x + iceBitmap.getWidth(), getScreenHeight() - iceBitmap.getHeight() * (i + 1), velocityXforBlock, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+            if (i < 9)
+                iceBlocks[i] = new Block(x + iceBitmap.getWidth(), getScreenHeight() - iceBitmap.getHeight() * (i + 1), velocityXforBlock, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+            else
+                iceBlocks[i] = new Block(x + iceBitmap.getWidth(), getScreenHeight() - iceBitmap.getHeight() * 10, velocityXforBlock, 0, new Rect(0, 0, iceBitmap.getWidth(), iceBitmap.getHeight()), iceBitmap);
+
             //if (iceBlock.getX() == criticalX) если достигает края экрана
             /*if (iceBlock.getX() == getScreenWidth() / 4 * 3) {
                 iceBlock.stop();
@@ -161,14 +166,33 @@ public class GameView extends View {
         canvas.drawText(points + "", viewWidth - 100, 70, p);
         for (int i = 0; i < iceBlocks.length; i++) {
             if (iceBlocks[i].intersect(playerBird)) {  //а если сбоку?
-                playerBird.stop();
+
                 playerBird.setY(playerBird.getY() - 20);
                 iceBlocks[i].stop();
                 points++;
-
+                /*if (iceBlocks[i].getX() > playerBird.getX())
+                    Toast.makeText("", Toast.LENGTH_SHORT).show();*/
+                if (iceBlocks[i].getY() <= getScreenHeight()/2){
+                    for(int j = i; j > 0; j--){
+                        iceBlocks[j].setVy(40);
+                    }
+                    playerBird.stop(40);
+                    iceBlocks[i].stop();
+                } else {
+                    playerBird.stop(0);
+                }
             }
+            /*if (iceBlocks[i].getX() <= getScreenHeight()){
+                for(int j = i; j > 0; j--){
+                    iceBlocks[j].setVy(iceBlocks[j].getVy()-20);
+                }
+                playerBird.stop();
+                iceBlocks[i].stop();
+            }*/
             iceBlocks[i].draw(canvas);
+
         }
+
         playerBird.draw(canvas);
 
     }
