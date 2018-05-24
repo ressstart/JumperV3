@@ -149,29 +149,19 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) { // чтобы рисовать на поверхности компонента
         super.onDraw(canvas);
-        //Bitmap mBackgroundImage = Bitmap.createBitmap(1000, 1000, Bitmap.Config.ARGB_4444);
-        //Canvas c = new Canvas(mBackgroundImage);
-        //c.setBitmap(mBackgroundImage);
-        //mCanvas = new Canvas(mBackgroundImage);
-        //canvas.drawBitmap(BitmapFactory.decodeResource(getResources(),R.drawable.mountain),0,0,null); // фон
-        //canvas.drawARGB(100, 224, 255, 255);
-        //canvas.drawColor(Color.TRANSPARENT);
-        // canvas.drawBitmap(background,0,0,null);
         canvas.drawBitmap(background, matrix, null);
 
         Paint p = new Paint();
         p.setAntiAlias(true);
-        p.setTextSize(55.0f);
-        p.setColor(Color.BLUE);
-        canvas.drawText(points + "", viewWidth - 100, 70, p);
+        p.setTextSize(70.0f);
+        p.setColor(Color.WHITE);
+        canvas.drawText(points + "", 25, 100, p);//viewWidth - 100, 70, p);
         for (int i = 0; i < iceBlocks.length; i++) {
             if (iceBlocks[i].intersect(playerBird)) {  //а если сбоку?
 
                 playerBird.setY(playerBird.getY() - 20);
                 iceBlocks[i].stop();
                 points++;
-                /*if (iceBlocks[i].getX() > playerBird.getX())
-                    Toast.makeText("", Toast.LENGTH_SHORT).show();*/
                 if (iceBlocks[i].getY() <= getScreenHeight()/2){
                     for(int j = i; j > 0; j--){
                         iceBlocks[j].setVy(40);
